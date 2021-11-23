@@ -1,23 +1,60 @@
-<template>
-  <BaseHeader />
-  <img alt="Vue logo" class="element-plus-logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Element Plus + Vite" />
+<template lang="pug">
+Framework(
+    aside-width="150px"
+    header-height="80px"
+    :direction="direction"
+    :fixed="fixed"
+    :breakpoint="992"
+    @breakpoint="handleBreakpoint"
+)
+    template(#aside) 
+        .aside Aside
+    template(#header)
+        .header
+            button(@click="direction = 'AHM'") AHM
+            button(@click="direction = 'HAM'") HAM
+            button(@click="direction = 'HM'") HM
+            button(@click="fixed = true") 固定
+            button(@click="fixed = false") 不固定
+    template(#main)
+        .main
+            div(style="line-height: 100vh;") 很长很长的
 </template>
 
 <script setup lang="ts">
-import BaseHeader from "./components/layouts/BaseHeader.vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import { ref } from 'vue';
+import Framework from '@/components/layouts/Framework/Framework.vue';
+
+const direction = ref<'AHM' | 'HAM' | 'HM'>('AHM');
+const fixed = ref<boolean>(false);
+function handleBreakpoint() {
+    console.log('break point');
+}
 </script>
 
-<style>
+<style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+    width: 100vw;
+    height: 100vh;
 }
-.element-plus-logo {
-  width: 50%;
+
+.aside, .header, .main {
+    width: 100%;
+    height: 100%;
+}
+
+.aside {
+    color: #eee;
+    background: #333;
+}
+
+.header {
+    color: #333;
+    background: #f5f5f5;
+}
+
+.main {
+    color: #333;
+    background: #eee;
 }
 </style>

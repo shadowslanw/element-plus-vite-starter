@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "esnext",
+    "baseUrl": "./",
+    "target": "es5",
     "useDefineForClassFields": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -12,8 +12,9 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "paths": {
-      "~/*": ["src/*"]
+      "@/*": ["src/*"],
+      "~/*": ["src/*"],
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types/*.d.ts"]
 }

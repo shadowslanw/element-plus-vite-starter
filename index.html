@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Element Plus Vite Starter</title>
+    <title><%= title %></title>
     <!-- element css cdn, if you use custom theme, remove it. -->
     <!-- <link
       rel="stylesheet"
@@ -12,6 +12,9 @@
     /> -->
   </head>
   <body>
+    <noscript>
+        <strong>非常抱歉, <%= title %> 无法在禁止脚本运行的情况下使用. 请允许运行并刷新页面.</strong>
+    </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
