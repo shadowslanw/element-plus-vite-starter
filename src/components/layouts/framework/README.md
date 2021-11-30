@@ -1,7 +1,7 @@
 # Layouts 布局
 ## Framework 框架容器  
 ### 说明  
-Framework组件采用grid布局，将页面分为2*2区域。
+Framework组件采用grid布局，将页面分为3*3区域。
 
 ### 参数  
 
@@ -15,21 +15,21 @@ Framework组件采用grid布局，将页面分为2*2区域。
 
 #### direction
 - AHM
-  <div style="display: grid; grid-template-columns: 100px auto; grid-template-rows: 40px auto; width: 600px; height: 300px; grid-template-areas: 'a h' 'a m';">
+  <div style="display: grid; grid-template-columns: 100px auto auto; grid-template-rows: 40px auto auto; width: 600px; height: 300px; grid-template-areas: 'a h h' 'a m m' 'a m m';">
     <div style="grid-area: a; line-height: 300px; text-align: center; background: #333; color: #eee;">Aside</div>
     <div style="grid-area: h; line-height: 40px; text-align: center; background: #f5f5f5; color: #333;">Header</div>
     <div style="grid-area: m; line-height: 260px; text-align: center; background: #eee; color: #333;">Main</div>
   </div>
   <br />  
 - HAM
-  <div style="display: grid; grid-template-columns: 100px auto; grid-template-rows: 40px auto; width: 600px; height: 300px; grid-template-areas: 'h h' 'a m';">
+  <div style="display: grid; grid-template-columns: 100px auto auto; grid-template-rows: 40px auto auto; width: 600px; height: 300px; grid-template-areas: 'h h h' 'a m m' 'a m m';">
     <div style="grid-area: a; line-height: 260px; text-align: center; background: #333; color: #eee;">Aside</div>
     <div style="grid-area: h; line-height: 40px; text-align: center; background: #f5f5f5; color: #333;">Header</div>
     <div style="grid-area: m; line-height: 260px; text-align: center; background: #eee; color: #333;">Main</div>
   </div>
   <br />  
 - HM
-  <div style="display: grid; grid-template-columns: 100px auto; grid-template-rows: 40px auto; width: 600px; height: 300px; grid-template-areas: 'h h' 'm m';">
+  <div style="display: grid; grid-template-columns: 100px auto auto; grid-template-rows: 40px auto auto; width: 600px; height: 300px; grid-template-areas: 'h h h' 'm m m';">
     <div style="grid-area: h; line-height: 40px; text-align: center; background: #f5f5f5; color: #333;">Header</div>
     <div style="grid-area: m; line-height: 260px; text-align: center; background: #eee; color: #333;">Main</div>
   </div>

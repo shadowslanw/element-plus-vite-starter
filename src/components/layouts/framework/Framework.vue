@@ -2,7 +2,7 @@
 .framework-container(:class="[direction, { 'is-fixed': fixed }]" :style="containerStyle")
     .framework-aside(:style="asideStyle")
         slot(name="aside")
-    .framework-header
+    .framework-header(:style="headerStyle")
         slot(name="header")
     .framework-main
         slot(name="main")
@@ -15,7 +15,7 @@ import { throttle } from '@/utils';
 
 const props = defineProps({
     direction: {
-        type: String as PropType<'AHM' | 'HAM' | 'HM'>,
+        type: String as PropType<'AHM' | 'HAM' | 'HM' | 'M'>,
         default: 'AHM',
     },
     fixed: {
@@ -42,12 +42,19 @@ const { direction, fixed, asideWidth, headerHeight, breakpoint } = toRefs(props)
 
 /** 容器布局 */
 const containerStyle = computed(() => ({
-    gridTemplateColumns: `${asideWidth.value} auto`,
-    gridTemplateRows: `${headerHeight.value} auto`,
+    gridTemplateColumns: `${asideWidth.value} auto auto`,
+    gridTemplateRows: `${headerHeight.value} auto auto`,
 }));
 const asideStyle = computed(() => {
     const style: CSSProperties = {};
-    if (direction.value === 'HM') {
+    if (direction.value.indexOf('A') === -1) {
+        style.display = 'none';
+    }
+    return style;
+});
+const headerStyle = computed(() => {
+    const style: CSSProperties = {};
+    if (direction.value.indexOf('H') === -1) {
         style.display = 'none';
     }
     return style;
@@ -74,7 +81,7 @@ if (breakpoint.value) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .framework-container {
     display: grid;
     width: 100%;
@@ -85,16 +92,25 @@ if (breakpoint.value) {
         }
     }
     &.AHM {
-        grid-template-areas: 'a h'
-                             'a m';
+        grid-template-areas: 'a h h'
+                             'a m m'
+                             'a m m';
     }
     &.HAM {
-        grid-template-areas: 'h h'
-                             'a m';
+        grid-template-areas: 'h h h'
+                             'a m m'
+                             'a m m';
     }
     &.HM {
-        grid-template-areas: 'h h'
-                             'm m';
+        grid-template-areas: 'h h h'
+                             'm m m'
+                             'm m m';
+    }
+
+    &.M {
+        grid-template-areas: 'm m m'
+                             'm m m'
+                             'm m m';
     }
     .framework-aside {
         grid-area: a;

@@ -1,32 +1,42 @@
 <template lang="pug">
 Framework(
-    aside-width="150px"
-    header-height="80px"
+    aside-width="200px"
+    header-height="60px"
     :direction="direction"
     :fixed="fixed"
     :breakpoint="992"
     @breakpoint="handleBreakpoint"
 )
     template(#aside) 
-        .aside Aside
+        .aside 
+            BaseMenu
     template(#header)
-        .header
-            button(@click="direction = 'AHM'") AHM
-            button(@click="direction = 'HAM'") HAM
-            button(@click="direction = 'HM'") HM
-            button(@click="fixed = true") 固定
-            button(@click="fixed = false") 不固定
+        .header HEADER
+            button(@click="preferSettingVisible = true") 偏好设置
     template(#main)
         .main
-            div(style="line-height: 100vh;") 很长很长的
+            Breadcrumb
+            router-view
+ElDrawer(v-model="preferSettingVisible" title="偏好设置" direction="rtl" size="400px")
+    PreferSetting
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import { ElDrawer } from 'element-plus';
 import Framework from '@/components/layouts/Framework/Framework.vue';
+import BaseMenu from '@/components/common/BaseMenu/BaseMenu.vue';
+import PreferSetting from '@/components/common/PreferSetting/PreferSetting.vue';
+import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb.vue';
 
-const direction = ref<'AHM' | 'HAM' | 'HM'>('AHM');
-const fixed = ref<boolean>(false);
+const store = useStore();
+
+const direction = computed(() => store.state.PreferSetting.direction);
+const fixed = computed(() => store.state.PreferSetting.fixed);
+
+const preferSettingVisible = ref<boolean>(false);
+
 function handleBreakpoint() {
     console.log('break point');
 }
