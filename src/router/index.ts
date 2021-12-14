@@ -1,9 +1,8 @@
 import {
-    RouterOptions,
-    RouteRecordRaw,
     createWebHistory,
     createRouter,
 } from 'vue-router';
+import type { RouterOptions, RouteRecordRaw } from 'vue-router';
 import { routes, baseRoutes } from './routes';
 
 /**

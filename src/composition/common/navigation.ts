@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { getTreePath } from '@/utils';
@@ -8,6 +8,12 @@ export default function setupNavigationInit() {
     const route = useRoute();
     const store = useStore();
     const menuList = ref<any[]>([
+        {
+            name: 'Home',
+            meta: {
+                name: '首页',
+            },
+        },
         {
             name: 'Login',
             meta: {

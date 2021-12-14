@@ -1,12 +1,16 @@
 <template lang="pug">
-ElMenu(@select="select")
+ElMenu(
+    :default-active="defaultActive"
+    :default-openeds="defaultOpeneds"
+    @select="select"
+)
     CustomSubMenu(v-for="menu in menuList" :key="menu.name" :menu="menu")
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, h } from 'vue';
+import { computed, defineComponent, h } from 'vue';
 import type { VNode } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ElMenu, ElMenuItem, ElSubMenu } from 'element-plus';
 import setupNavigationInit from '@/composition/common/navigation';
 
@@ -52,7 +56,15 @@ const CustomSubMenu = defineComponent({
 });
 
 const router = useRouter();
-const { menuList } = setupNavigationInit();
+const route = useRoute();
+const { menuList, breadcrumbs } = setupNavigationInit();
+const defaultActive = computed(() => route.name as string);
+const defaultOpeneds = computed(() => breadcrumbs.value.reduce((index: string[], item: any) => {
+    if (index.indexOf(item.name) !== -1) {
+        index.push(item.name);
+    }
+    return index;
+}, []));
 
 const select = (index: string) => {
     router.push({ name: index });
