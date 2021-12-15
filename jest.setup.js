@@ -4,6 +4,7 @@ config.global.stubs = {
     transition: false,
     'transition-group': false,
 };
+
 /* eslint-disable global-require */
 if (typeof window !== 'undefined') {
     global.window.resizeTo = (width, height) => {
@@ -21,6 +22,7 @@ if (typeof window !== 'undefined') {
             })),
         });
     }
+    global.window.ASYNC_VALIDATOR_NO_WARNING = 1;
 }
 
 global.ResizeObserver = require('resize-observer-polyfill');

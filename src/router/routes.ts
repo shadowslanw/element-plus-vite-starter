@@ -5,6 +5,7 @@ import Login from '@/views/common/Login.vue';
 import Setting from '@/views/common/Setting.vue';
 import PageNotFound from '@/views/common/PageNotFound.vue';
 import Forbidden from '@/views/common/Forbidden.vue';
+import Security from '@/views/common/Security.vue';
 import View from '@/views/common/View.vue';
 
 /**
@@ -114,6 +115,16 @@ export const baseRoutes: RouteRecordRaw[] = [
         meta: {
             name: '设置',
             isKeepAlive: false,
+        },
+    },
+    {
+        path: '/security',
+        name: 'Security',
+        component: Security,
+        meta: {
+            name: '设置',
+            isKeepAlive: false,
+            isBreadcrumbVisible: false,
         },
     },
 ];

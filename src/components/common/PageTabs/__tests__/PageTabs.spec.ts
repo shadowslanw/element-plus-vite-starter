@@ -8,6 +8,7 @@ import PageTabsModule from '@/store/modules/PageTabs';
 import PageTabs from '../PageTabs.vue';
 
 describe('PageTabs 多标签页面', () => {
+    
     const ViewComponent = defineComponent({
         name: 'View',
         template: '<div>ViewComponent</div>',

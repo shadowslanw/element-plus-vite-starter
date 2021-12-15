@@ -4,45 +4,50 @@ ElForm(
     :model="formState"
     :rules="formRules"
 )
-    ElFormItem(prop="account")
+    ElFormItem(label="请输入密码" prop="oldPassword")
         ElInput(
-            ref="accountInputRef"
-            v-model="formState.account"
-            placeholder="账号/手机号"
+            ref="oldPasswordInputRef"
+            v-model="formState.oldPassword"
+            placeholder=""
         )
-    ElFormItem(prop="password")
+    ElFormItem(label="请输入新密码" prop="newPassword")
         ElInput(
-            ref="passwordInputRef"
-            v-model="formState.password"
-            placeholder="密码" 
+            ref="newPasswordInputRef"
+            v-model="formState.newPassword"
+            placeholder="" 
+        )
+    ElFormItem(label="再次输入新密码" prop="confirmPassword")
+        ElInput(
+            ref="confirmPasswordInputRef"
+            v-model="formState.confirmPassword"
+            placeholder="" 
         )
     ElFormItem
-        ElButton(ref="submitBtnRef" data-action="submit" @click="loginWrap") 登录
+        ElButton(ref="submitBtnRef" data-action="submit" @click="resetWrap") 确认修改
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus';
-import setupLoginInit from '@/composition/login';
+import setupSecurityInit from '@/composition/security';
 
 export default defineComponent({
-    name: 'Login',
+    name: 'Security',
     components: {
         ElForm, ElFormItem, ElInput, ElButton,
     },
     setup() {
         return {
             formRef: ref(),
-            ...setupLoginInit(),
+            ...setupSecurityInit(),
         };
     },
     methods: {
-        loginWrap() {
+        resetWrap() {
             this.formRef.validate()
                 .then(async () => {
                     try {
-                        await this.login();
-                        this.$router.replace({ name: 'Home' });
+                        await this.reset();
                     } catch (error) {
                         console.warn(error);
                     }

@@ -17,7 +17,6 @@ Framework(
         .main
             PageTabs
             Breadcrumb
-            | {{ routerViewKeepAlive }}
             router-view(#default="{ Component }")
                 keep-alive(:include="routerViewKeepAlive")
                     component(:is="Component")

@@ -38,6 +38,12 @@ export default function setupNavigationInit() {
                         name: 'Forbidden',
                     },
                 },
+                {
+                    name: 'Security',
+                    meta: {
+                        name: '安全中心',
+                    },
+                },
             ],
         },
     ]);
