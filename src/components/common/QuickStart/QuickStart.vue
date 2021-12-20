@@ -4,7 +4,7 @@ ElPopover(
     :width="400"
     trigger="focus"
 )
-    template(#reference)
+    template(#reference="padding")
         ElInput.search(
             v-model="queryString"
             size="mini"

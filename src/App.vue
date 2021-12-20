@@ -7,14 +7,14 @@ Framework(
     :breakpoint="992"
     @breakpoint="handleBreakpoint"
 )
-    template(#aside) 
+    template(#aside="padding")
         .aside 
             BaseMenu
-    template(#header)
+    template(#header="padding")
         .header HEADER
             button(@click="preferSettingVisible = true") 偏好设置
             QuickStart
-    template(#main)
+    template(#main="padding")
         .main
             PageTabs
             Breadcrumb

@@ -10,7 +10,8 @@ module.exports = {
     testEnvironment: 'jsdom', 
     // 转义
     transform: {
-      '^.+\\.vue$': 'vue-jest',
+    //   '^.+\\.vue$': 'vue-jest',
+      '^.+\\.vue$': '@vue/vue3-jest',
       '^.+\\js$': 'babel-jest',
       '^.+\\.(t|j)sx?$': 'ts-jest'
     },

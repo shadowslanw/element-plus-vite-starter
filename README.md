@@ -1,44 +1,14 @@
-# element-plus-vite-starter
+# 后台模板
 
-> A starter kit for Element Plus with Vite
-
-<img width="800" alt="Element Plus" src="https://user-images.githubusercontent.com/10731096/97282764-0726eb80-187a-11eb-9658-6dc98ccb8f8d.png">
-
-- Preview: <https://vite-starter.element-plus.org>
-
-This is an example of on-demand element-plus with [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components).
-
-> If you want to import all, it may be so simple that no examples are needed. Just follow [quickstart | Docs](https://element-plus.org/zh-CN/guide/quickstart.html) and import them.
-
-If you just want an on-demand import example `manually`, you can check [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus/tree/main/examples/vite).
-
-## Project setup
-
-```bash
-npm install
-```
-
-### Compiles and hot-reloads for development
-
-```bash
-npm run dev
-```
-
-### Compiles and minifies for production
-
-```bash
-npm run build
-```
-
-## Usage
-
-```bash
-git clone https://github.com/element-plus/element-plus-vite-starter
-cd element-plus-vite-starter
-npm i
-npm run dev
-```
-
-### Custom theme
-
-See `src/styles/element/index.scss`.
+## 注意事项
+- 2021/12/20 jest, babel-jest, ts-jest, @types/jest 使用版本27.0.0, @vue/vue3-jest 使用版本27.0.0-alpha.4仍然未解决以下问题
+  ```
+  [vue-jest] Error: Vue template compilation failed
+  ```  
+  该问题由vue-jest编译```<template lang="pug">```块时，由于语法中使用了诸如```template(#default)```或者```template(v-slot:default)```，导致不能正确编译。__项目中约定以padding参数名作为插槽空参数的占位符__,临时解决方案：
+  ```ts
+  template(#default="padding") // template(#default)
+  template(v-slot:default="padding") // template(v-slot:default)
+  ```  
+  
+  > [see this issue](https://github.com/quasarframework/quasar-testing/issues/87)
