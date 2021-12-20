@@ -13,6 +13,7 @@ Framework(
     template(#header)
         .header HEADER
             button(@click="preferSettingVisible = true") 偏好设置
+            QuickStart
     template(#main)
         .main
             PageTabs
@@ -24,7 +25,7 @@ ElDrawer(v-model="preferSettingVisible" title="偏好设置" direction="rtl" siz
     PreferSetting
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { ElDrawer } from 'element-plus';
@@ -33,6 +34,7 @@ import BaseMenu from '@/components/common/BaseMenu/BaseMenu.vue';
 import PreferSetting from '@/components/common/PreferSetting/PreferSetting.vue';
 import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb.vue';
 import PageTabs from '@/components/common/PageTabs/PageTabs.vue';
+import QuickStart from '@/components/common/QuickStart/QuickStart.vue';
 
 const store = useStore();
 

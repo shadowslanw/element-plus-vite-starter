@@ -9,18 +9,21 @@ ElForm(
             ref="oldPasswordInputRef"
             v-model="formState.oldPassword"
             placeholder=""
+            show-password
         )
     ElFormItem(label="请输入新密码" prop="newPassword")
         ElInput(
             ref="newPasswordInputRef"
             v-model="formState.newPassword"
-            placeholder="" 
+            placeholder=""
+            show-password
         )
     ElFormItem(label="再次输入新密码" prop="confirmPassword")
         ElInput(
             ref="confirmPasswordInputRef"
             v-model="formState.confirmPassword"
-            placeholder="" 
+            placeholder=""
+            show-password
         )
     ElFormItem
         ElButton(ref="submitBtnRef" data-action="submit" @click="resetWrap") 确认修改

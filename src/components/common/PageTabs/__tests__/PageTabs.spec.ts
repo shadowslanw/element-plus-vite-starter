@@ -66,6 +66,22 @@ describe('PageTabs 多标签页面', () => {
         expect(wrapper.findComponent(ElTabs).isVisible()).toBeTruthy();
     });
 
+    test('PreferSetting = undefined, 组件展示', async () => {
+        const store = createStore<any>({
+            modules: {
+                PageTabs: PageTabsModule,
+            },
+        });
+        const wrapper = mount(PageTabs, {
+            global: {
+                plugins: [ router ],
+                provide: { store },
+            },
+        });
+
+        expect(wrapper.findComponent(ElTabs).isVisible()).toBeTruthy();
+    });
+
     test('currentTab绑定当前路由', async () => {
         router.push({ name: 'A' });
         await router.isReady();
@@ -106,7 +122,7 @@ describe('PageTabs 多标签页面', () => {
                 mocks: { remove },
             },
         });
-        wrapper.getComponent(ElTabs).vm.$emit('tab-remove');
+        wrapper.getComponent(ElTabs).vm.$emit('tab-remove', 'remove-tab-name');
         expect(remove).toBeCalledTimes(1);
     });
 
