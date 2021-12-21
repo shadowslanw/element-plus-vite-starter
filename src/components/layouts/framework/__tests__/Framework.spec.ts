@@ -139,4 +139,26 @@ describe('Framework 框架容器', () => {
         window.resizeTo(992, 768);
         expect(mockFn).not.toBeCalled();
     });
+
+    test('参数 breakpoint = 992, 组件unmount, 注销resize监听', async () => {
+        const mockFn = jest.fn();
+        const flushPromises = () => new Promise((resolve: any) => setTimeout(resolve, 300));
+
+        window.resizeTo(990, 768);
+        const wrapper = mount(Framework, {
+            props: {
+                breakpoint: 992,
+            },
+            attrs: {
+                onBreakpoint: mockFn,
+            },
+        });
+        expect(mockFn).toBeCalledTimes(1);
+
+        wrapper.unmount();
+
+        await flushPromises();
+        window.resizeTo(728, 768);
+        expect(mockFn).toBeCalledTimes(1);
+    });
 });
