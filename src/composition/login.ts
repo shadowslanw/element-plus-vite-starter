@@ -17,7 +17,7 @@ export default function setupLoginInit() {
     };
     const login = () => {
         console.log('todo: http here.', formState.value.account);
-        localStorage.setItem('LoginName', formState.value.account || '');
+        localStorage.setItem('LoginName', formState.value.account);
     }
     return {
         formState,
