@@ -3,6 +3,8 @@ import { config } from '@vue/test-utils';
 config.global.stubs = {
     transition: false,
     'transition-group': false,
+    'router-link': false,
+    'router-view': false,
 };
 
 /* eslint-disable global-require */

@@ -1,8 +1,10 @@
 <template lang="pug">
 ElPopover(
+    v-model:visible="visible"
     placement="bottom-end"
     :width="400"
     trigger="focus"
+    :show-arrow="false"
 )
     template(#reference="padding")
         ElInput.search(
@@ -25,7 +27,7 @@ ElPopover(
             .result-item-title 相关文档
             .result-item-body
                 CustomList(:dataSource="docs")
-        .empty.result-item(v-show="!queryString") 请输入想要搜索的产品/功能/文档关键字
+        .empty.result-item(ref="emptyResultRef" v-show="!queryString") 请输入想要搜索的产品/功能/文档关键字
 </template>
 
 <script lang="ts" setup>
@@ -40,6 +42,7 @@ import CustomList from '@/components/common/CustomList/CustomList.vue';
 const { menuList } = setupNavigationInit();
 const { list: HelpList } = setupHelpInit();
 const queryString = ref<string>('');
+const visible = ref<boolean>(false);
 
 const features = ref<any[]>([]);
 const featureFilter = throttle(200, (query: string) => {
@@ -54,7 +57,7 @@ const featureFilter = throttle(200, (query: string) => {
             results = [...find(src.children)];
         } else {
             if (src.name.indexOf(query) !== -1
-                || src.meta?.name.indexOf(query) !== -1
+                || (src.meta?.name && src.meta.name.indexOf(query) !== -1)
             ) {
                 results = [src];
             }
@@ -66,10 +69,11 @@ const featureFilter = throttle(200, (query: string) => {
 watch(queryString, featureFilter);
 
 const docs = ref<any[]>([]);
-const docFilter = throttle(20, (query: string) => {
+const docFilter = throttle(200, (query: string) => {
     // docs.value = await HelpList();
     docs.value = [];
 });
+watch(queryString, docFilter);
 </script>
 
 <style lang="scss" scoped>
