@@ -29,6 +29,7 @@ describe('VueRouter', () => {
         while(result.length) {
             const item = result.shift();
             const target = expected.find((v: any) => v.name === item.name);
+            expect(target).toBeTruthy();
             expect(item.path).toEqual(target.path);
             if (item.meta) {
                 expect(item.meta.name).toEqual(target.meta.name);
