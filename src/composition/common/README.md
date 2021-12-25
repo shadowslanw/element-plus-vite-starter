@@ -28,11 +28,11 @@
 |:--|:--|:--|:--|:--|
 |required|基础必填项|required(message)|提示信息，默认'必填项未填写'|${message}|
 |digital|浮点数|(limit = 2, fixed = false)|limit: 小数位数最大值, <br>fixed: 小数位数固定limit|请输入${limit}位小数|
-|integer|整数|-|-|请输入整数|
-|positiveNumber|正数|-|-|请输入正数|
-|min|最小值限定|(min)|min: 最小值|不能小于${min}|
-|max|最大值限定|(max)|max: 最大值|不能大于${max}|
-|maxLength|字数限制|(len)|len: 最大字数|字数限制：${len}|
-arrayLength|数组长度限制|(len = 1, message = '至少有一项')|len: 最小数组长度<br>message: 提示信息|${message}|
-|phone|11位手机格式|-|-|手机格式不正确|
+|integer|整数|(message = '请输入整数')|message: 提示信息|${message}|
+|positiveNumber|正数|(message = '请输入正数')|message: 提示信息|${message}|
+|min|最小值限定|(min: numbedr, message = '不能小于${value}')|min: 最小值<br>message:提示信息|${message}|
+|max|最大值限定|(max: number, message = '不能大于${value}')|max: 最大值<br>message:提示信息|${message}|
+|maxLength|长度限制|(len: number, message = '最大长度限制：${value}')|len: 最大长度<br>message:提示信息|${message}|
+|mixLength|长度限制|(len = 1, message = '最小长度限制：${value}')|len: 最小长度<br>message: 提示信息|${message}|
+|phone|11位手机格式|(message = '手机格式不正确')|message: 提示信息|${message}|
 

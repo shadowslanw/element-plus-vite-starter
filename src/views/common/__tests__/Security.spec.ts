@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import Security from '../Security.vue';
+import * as compositionSecurity from '@/composition/security';
 
 
 describe('登录页', () => {
@@ -30,22 +31,21 @@ describe('登录页', () => {
     });
 
     test('输入密码，点击修改按钮，调用reset', async () => {
-        const reset = jest.fn();
+        const reset = jest.spyOn(compositionSecurity, 'reset');
         const wrapper = mount(Security, {
             global: {
                 mocks: {
                     formState: {
-                        oldPassword: '123456',
-                        newPassword: 'abcdefg',
-                        confirmPassword: 'abcdefg',
+                        oldPassword: 'abcdefg',
+                        newPassword: '123456',
+                        confirmPassword: '123456',
                     },
                     reset,
                 },
             },
         });
-        
         wrapper.find('[data-action="submit"]').trigger('click');
-        
+
         await flushPromises();
         expect(reset).toBeCalled();
     });
@@ -157,6 +157,90 @@ describe('登录页', () => {
         
         await flushPromises(20);
         expect(wrapper.html()).toContain('两次输入的新密码不一致');
+        expect(reset).not.toBeCalled();
+    });
+
+    test('新密码123456/\'123456\', 通过验证', async () => {
+        const reset = jest.fn();
+        const wrapper = mount(Security, {
+            global: {
+                mocks: {
+                    formState: {
+                        oldPassword: 'abcdefg',
+                        newPassword: 123456,
+                        confirmPassword: '123456',
+                    },
+                    reset,
+                },
+            },
+        });
+
+        wrapper.find('[data-action="submit"]').trigger('click');
+        
+        await flushPromises(20);
+        expect(reset).toBeCalled();
+    });
+
+    test('新密码\' \'/\' \', 不通过验证', async () => {
+        const reset = jest.fn();
+        const wrapper = mount(Security, {
+            global: {
+                mocks: {
+                    formState: {
+                        oldPassword: 'abcdefg',
+                        newPassword: ' ',
+                        confirmPassword: ' ',
+                    },
+                    reset,
+                },
+            },
+        });
+
+        wrapper.find('[data-action="submit"]').trigger('click');
+        
+        await flushPromises(20);
+        expect(reset).not.toBeCalled();
+    });
+
+    test('新密码null/null, 不通过验证', async () => {
+        const reset = jest.fn();
+        const wrapper = mount(Security, {
+            global: {
+                mocks: {
+                    formState: {
+                        oldPassword: 'abcdefg',
+                        newPassword: null,
+                        confirmPassword: null,
+                    },
+                    reset,
+                },
+            },
+        });
+
+        wrapper.find('[data-action="submit"]').trigger('click');
+        
+        await flushPromises(20);
+        expect(reset).not.toBeCalled();
+    });
+
+    test('新密码\'abc\'/null, 不通过验证', async () => {
+        const reset = jest.fn();
+        const wrapper = mount(Security, {
+            global: {
+                mocks: {
+                    formState: {
+                        oldPassword: 'abcdefg',
+                        newPassword: 'abc',
+                        confirmPassword: null,
+                    },
+                    reset,
+                },
+            },
+        });
+
+        wrapper.find('[data-action="submit"]').trigger('click');
+        
+        await flushPromises(20);
         expect(reset).not.toBeCalled();
     });
 });

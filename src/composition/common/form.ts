@@ -1,19 +1,29 @@
+import type { RuleItem } from 'async-validator';
 
-export const validators = {
+export interface RuleItemOption extends RuleItem {
+    trigger?: string | string[]
+}
+
+/**
+ * 基于async-validator插件封装的常用表单验证配置
+ * @see https://github.com/yiminghe/async-validator
+ */
+export const validators: Record<string, (...args: any) => RuleItemOption> = {
     // 基础必填项
     required(message = '必填项未填写') {
         return {
             required: true, message: message, trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (['', void 0].includes(value) || value?.toString().match(/^\s+$/)?.length) {
-                        return Promise.reject(message);
+                    if (['', void 0, null].includes(value)
+                        || !value.toString().trim().length
+                    ) {
+                        callback(new Error(message));
                     } else {
-                        return Promise.resolve();
+                        callback();
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
@@ -27,149 +37,169 @@ export const validators = {
         const message = `请输入${limit}位小数`;
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
                     const val = value?.toString() ?? '';
                     const reg = fixed
                         ? new RegExp(`^\\-?\\d+(.\\d{${limit}})?$`)
                         : new RegExp(`^\\-?\\d+(.\\d{0,${limit}})?$`);
                     if (reg.test(val) || !val) {
-                        return Promise.resolve();
+                        callback();
                     } else {
-                        return Promise.reject(message);
+                        callback(new Error(message));
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    integer() {
+    /**
+     * integer 整数
+     */
+    integer(message = '请输入整数') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
                     const val = value?.toString() ?? '';
-                    const reg = /^[1-9]+[0-9]*$/;
-
-                    if (reg.test(val) || !val || value === 0) {
-                        return Promise.resolve();
+                    Math.round(+val)
+                    if (Math.round(+val) !== +val) {
+                        callback(new Error(message));
                     } else {
-                        return Promise.reject('请输入整数');
+                        callback();
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    positiveNumber() {
+    /**
+     * positiveNumber 正数
+     */
+    positiveNumber(message = '请输入正数') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (!value) {
-                        return Promise.resolve();
-                    } else if (Number(value) > 0
-                        && Number(value) === Math.abs(Number(value))
-                    ) {
-                        return Promise.resolve();
+                    if (+value > 0) {
+                        callback();
                     } else {
-                        return Promise.reject('请输入正数');
+                        callback(new Error(message));
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    min(min: number) {
-        const message = `不能小于${min}`;
+    /**
+     * min 限制最小值
+     * @param {number} min 最小值
+     */
+    min(min: number, message = '不能小于${value}') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (Number(value) >= min || !value) {
-                        return Promise.resolve();
+                    const msg = message.replace('${value}', min.toString());
+                    if (+value >= +min || ['', void 0, null].includes(value)) {
+                        callback();
                     } else {
-                        return Promise.reject(message);
+                        callback(new Error(msg));
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    max(max: number) {
-        const message = `不能大于${max}`;
+    /**
+     * max 限制最大值
+     * @param max 最大值
+     */
+    max(max: number, message = '不能大于${value}') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (Number(value) <= max || !value) {
-                        return Promise.resolve();
+                    const msg = message.replace('${value}', max.toString());
+                    if (+value <= +max || ['', void 0, null].includes(value)) {
+                        callback();
                     } else {
-                        return Promise.reject(message);
+                        callback(msg);
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    maxLength(len: number) {
-        const message = `字数限制：${len}`;
+    /**
+     * maxLength
+     * @param len 最大长度
+     */
+    maxLength(len: number, message = '最大长度限制:${value}') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (value.length > len) {
-                        return Promise.reject(message);
+                    const msg = message.replace('${value}', len.toString());
+                    if ([void 0, null].includes(value)) {
+                        callback();
+                    } else if (value.length > len) {
+                        callback(new Error(msg));
                     } else {
-                        return Promise.resolve();
+                        callback();
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
                 }
             },
         };
     },
-    arrayLength(len = 1, message = '至少有一项') {
-        return {
-            required: true, message: message, trigger: 'change',
-            validator: (rule: any, value: any) => {
-                try {
-                    if (value?.length < len) {
-                        return Promise.reject(message);
-                    } else {
-                        return Promise.resolve();
-                    }
-                } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
-                }
-            },
-        };
-    },
-    phone() {
+    /**
+     * minLength
+     * @param len 最小长度
+     */
+    minLength(len = 1, message = '最小长度限制:${value}') {
         return {
             trigger: 'change',
-            validator: (rule: any, value: any) => {
+            validator: (rule: any, value: any, callback: any) => {
                 try {
-                    if (!/^1\d{10}$/.test(value)) {
-                        return Promise.reject('手机格式不正确');
+                    const msg = message.replace('${value}', len.toString());
+                    if ([void 0, null].includes(value)) {
+                        callback(new Error(msg));
+                    } else if (value.length < len) {
+                        callback(new Error(msg));
                     } else {
-                        return Promise.resolve();
+                        callback();
                     }
                 } catch (error: any) {
-                    console.warn('validators ERROR', error);
-                    return Promise.reject(error.message);
+                    callback(error);
+                }
+            },
+        };
+    },
+    /**
+     * phone
+     * @desc 目前仅支持验证1开头11位数字
+     */
+    phone(message = '手机格式不正确') {
+        return {
+            trigger: 'change',
+            validator: (rule: any, value: any, callback: any) => {
+                try {
+                    if (['', null, void 0].includes(value)) {
+                        callback();
+                    } else if (!/^1\d{10}$/.test(value.toString().trim())) {
+                        callback(new Error(message));
+                    } else {
+                        callback();
+                    }
+                } catch (error: any) {
+                    callback(error);
                 }
             },
         };

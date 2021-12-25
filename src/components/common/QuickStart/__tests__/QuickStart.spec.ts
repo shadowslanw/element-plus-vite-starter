@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import QuickStart from '../QuickStart.vue';
+import * as compositionHelp from '@/composition/help';
 
 const flushPromises = (delay = 0) => new Promise((resolve: any) => setTimeout(resolve, delay));
 
@@ -71,7 +72,19 @@ describe('QuickStart 快捷导航', () => {
         expect(wrapper.vm.features.length).toBe(0);
     });
 
-    test.todo('输入关键字，调起远程筛选相关文档的方法');
+    test('输入关键字，调起远程筛选相关文档的方法', async () => {
+        const list = jest.spyOn(compositionHelp, 'list');
+        const wrapper = shallowMount(QuickStart, {
+            global: {
+                mocks: {
+                    HelpList: list,
+                },
+            },
+        });
+        wrapper.vm.queryString = 'A';
+        await flushPromises();
+        expect(list).toBeCalled();
+    });
 
     test('没有输入关键字，弹窗展示提示信息', async () => {
         const wrapper = mount(QuickStart);

@@ -69,9 +69,8 @@ const featureFilter = throttle(200, (query: string) => {
 watch(queryString, featureFilter);
 
 const docs = ref<any[]>([]);
-const docFilter = throttle(200, (query: string) => {
-    // docs.value = await HelpList();
-    docs.value = [];
+const docFilter = throttle(200, async (query: string) => {
+    docs.value = await HelpList();
 });
 watch(queryString, docFilter);
 </script>

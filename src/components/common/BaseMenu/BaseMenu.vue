@@ -34,10 +34,10 @@ const CustomSubMenu = defineComponent({
                 if (typeof this.menu.meta.icon === 'string') {
                     vnodes.push(h('i', { class: ['iconfont', this.menu.meta.icon] }));
                 } else {
-                    vnodes.push(h(this.menu.meta.icon));
+                    vnodes.push(h('component', { is: this.menu.meta.icon }));
                 }
             }
-            vnodes.push(this.menu.meta.name ?? this.menu.name);
+            vnodes.push(this.menuName);
             return vnodes;
         },
     },
@@ -60,7 +60,7 @@ const route = useRoute();
 const { menuList, breadcrumbs } = setupNavigationInit();
 const defaultActive = computed(() => route.name as string);
 const defaultOpeneds = computed(() => breadcrumbs.value.reduce((index: string[], item: any) => {
-    if (index.indexOf(item.name) !== -1) {
+    if (!index.includes(item.name)) {
         index.push(item.name);
     }
     return index;
