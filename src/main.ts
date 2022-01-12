@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
-import { router } from '@/router';
+import router from '@/router';
 import store from '@/store';
 import App from './App.vue';
 

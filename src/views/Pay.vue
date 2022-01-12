@@ -1,5 +1,5 @@
 <template lang="pug">
-| Forbidden
+| Pay
 </template>
 
 <script lang="ts" setup>

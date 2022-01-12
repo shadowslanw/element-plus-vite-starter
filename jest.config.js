@@ -4,7 +4,6 @@ module.exports = {
     rootDir: path.join(__dirname, 'src'),
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1', // 配合vite.config.ts 中的resolve.alias['@']
-        // 'ant-design-vue$': '<rootDir>/node_modules/ant-design-vue/lib/index.js',
     },
     // 浏览器环境项目，需要设置此选项
     testEnvironment: 'jsdom', 
